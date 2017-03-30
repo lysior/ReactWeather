@@ -1,0 +1,16 @@
+var React = require('react');
+var {Link} = require('react-router');
+
+var Nav = () => {
+  return (
+    <div>
+      <h2>Nav Component</h2>
+      <Link to="/">GetWeather</Link>
+      <Link to="/about">About</Link>
+      <Link to="/examples">Examples</Link>
+    </div>
+  );
+}
+
+
+module.exports = Nav;
