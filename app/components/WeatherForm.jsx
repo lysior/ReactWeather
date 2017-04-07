@@ -14,7 +14,7 @@ var WeatherForm = React.createClass({
       <div>
         <form onSubmit={this.onSearch}>
           <input type="text" placeholder="Stadt" ref="city"></input>
-          <button type="submit">GO!</button>
+          <button className="button hollow expanded" type="submit">GO!</button>
         </form>
       </div>
     )

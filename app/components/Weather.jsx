@@ -1,53 +1,62 @@
 var React = require('react');
-var WeatherMessage = require('WeatherMessage');
 var WeatherForm = require('WeatherForm');
+var WeatherMessage = require('WeatherMessage');
+var ErrorModal = require('ErrorModal');
 var openWeatherMap = require('openWeatherMap');
 
-var Weather = React.createClass(
-  {
-    getDefaultProps: function () {
+var Weather = React.createClass({
+    getInitialState: function () {
       return {
-        city: 'Garching',
-        temperature: 'unbekannt'
+        isLoading: false
       }
     },
-    getInitialState: function () {
-      return {isLoading: false}
-    },
-    handleUpdate: function (city) {
+    handleUpdate: function (location) {
       var that = this;
-      this.setState({isLoading: true})
-      openWeatherMap.getTemp(city).then(function(temp) {
+      this.setState({
+        isLoading: true,
+        errorMessage: undefined
+      });
+
+      openWeatherMap.getTemp(location).then(function(temp) {
         that.setState({
-          city: city,
-          temperature: temp,
+          location: location,
+          temp: temp,
           isLoading: false
+		 });
+      }, function (e) {
+        that.setState({
+          isLoading: false,
+          errorMessage: e.message
         });
-      }, function (erroMessage) {
-        that.setState({isLoading: false})
-        alert(erroMessage)
-      })
+      });
     },
     render: function () {
-      var {city, temperature, isLoading} = this.state;
+      var {location, temp, isLoading, errorMessage} = this.state;
+      debugger;
 
       function renderMessage() {
         if (isLoading) {
-          return <h3>Auf der Suche ...</h3>;
-        } else if (city && temperature) {
-          return <WeatherMessage city={city} temperature= {temperature}></WeatherMessage>;
+          return <p className="text-center">Auf der Suche ...</p>;
+        } else if (location && temp) {
+          return <WeatherMessage location={location} temp= {temp}></WeatherMessage>;
+        }
+      }
+      function renderErrorMessage() {
+        if (typeof errorMessage === 'string' ) {
+          return (
+			<ErrorModal></ErrorModal>
+		  );
         }
       }
       return (
         <div>
-          <h2>Weather Component</h2>
+          <h1 className="text-center">Weather Component</h1>
           <WeatherForm onUpdate={this.handleUpdate}></WeatherForm>
           {renderMessage()}
+          {renderErrorMessage()}
         </div>
       );
     }
-  }
-)
-
+});
 
 module.exports = Weather;
