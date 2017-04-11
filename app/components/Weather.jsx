@@ -43,13 +43,13 @@ var Weather = React.createClass({
       function renderErrorMessage() {
         if (typeof errorMessage === 'string' ) {
           return (
-			         <ErrorModal></ErrorModal>
+			         <ErrorModal message={errorMessage}></ErrorModal>
              );
         }
       }
       return (
         <div>
-          <h1 className="text-center">Weather Component</h1>
+          <h1 className="text-center page-title">Weather Component</h1>
           <WeatherForm onUpdate={this.handleUpdate}></WeatherForm>
           {renderMessage()}
           {renderErrorMessage()}
