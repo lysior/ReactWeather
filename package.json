@@ -1,6 +1,9 @@
 {
   "name": "react-weather",
   "version": "1.0.0",
+  "engines": {
+    "node": "6.11.1"
+  }
   "description": "simple react weather app",
   "main": "index.js",
   "scripts": {
